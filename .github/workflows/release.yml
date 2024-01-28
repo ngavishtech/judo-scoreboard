@@ -1,0 +1,20 @@
+name: Create Release
+
+on:
+  create:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@master
+      - name: Zip Folder
+        run: zip -r judoscoreboard.zip judoscoreboard -x ".gitignore"
+      - name: Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "judoscoreboard.zip"
