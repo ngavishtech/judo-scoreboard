@@ -21,7 +21,7 @@
                                             onclick="remove_point(0,'ippon')"
                                             type="button"
                                             class="btn btn-secondary optional"
-                                            data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Remove Ippon (Shift+1)"
+                                            data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Remove Ippon (Shift/Ctrl+1)"
                                         >-</button>
                                         <span class="lh-1" onclick="add_point(0,'ippon')" id="point_0_ippon">NaN</span>
                                         <button
@@ -41,7 +41,7 @@
                                             onclick="remove_point(0,'wazari')"
                                             type="button"
                                             class="btn btn-secondary optional"
-                                            data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Remove Wazari (Shift+2)"
+                                            data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Remove Wazari (Shift/Ctrl+2)"
                                         >-</button>
                                         <span class="lh-1" onclick="add_point(0,'wazari')" id="point_0_wazari">NaN</span>
                                         <button
@@ -61,7 +61,7 @@
                                             onclick="remove_point(0,'shido')"
                                             type="button"
                                             class="btn btn-secondary optional"
-                                            data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Remove Shido (Shift+3)"
+                                            data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Remove Shido (Shift/Ctrl+3)"
                                         >-</button>
                                         <span class="lh-1" onclick="add_point(0,'shido')" id="point_0_shido">NaN</span>
                                         <button
@@ -91,7 +91,7 @@
                                             onclick="remove_point(1,'ippon')"
                                             type="button"
                                             class="btn btn-light optional"
-                                            data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Remove Ippon (Shift+4)"
+                                            data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Remove Ippon (Shift/Ctrl+4)"
                                         >-</button>
                                         <span class="lh-1" onclick="add_point(1,'ippon')" id="point_1_ippon">NaN</span>
                                         <button
@@ -111,7 +111,7 @@
                                             onclick="remove_point(1,'wazari')"
                                             type="button"
                                             class="btn btn-light optional"
-                                            data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Remove Wazari (Shift+5)"
+                                            data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Remove Wazari (Shift/Ctrl+5)"
                                         >-</button>
                                         <span class="lh-1" onclick="add_point(1,'wazari')" id="point_1_wazari">NaN</span>
                                         <button
@@ -131,7 +131,7 @@
                                             onclick="remove_point(1,'shido')"
                                             type="button"
                                             class="btn btn-light optional"
-                                            data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Remove Shido (Shift+6)"
+                                            data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Remove Shido (Shift/Ctrl+6)"
                                         >-</button>
                                         <span class="lh-1" onclick="add_point(1,'shido')" id="point_1_shido">NaN</span>
                                         <button
@@ -149,7 +149,7 @@
             </tr>
             <tr class="scoreboard_time_row">
                 <td>
-                    <table>
+                    <table style="background-color: #000000">
                         <tbody>
                             <tr>
                                 <td class="text-center" style="width: 35%">
@@ -158,7 +158,7 @@
                                         <div class="mb-2">
                                             <div class="d-flex justify-content-center mb-2">
                                                 <div class="input-group" style="width:23em;">
-                                                    <input id="total_fight_time_reset_minutes" type="number" min="0" step="1" value="5" class="form-control"
+                                                    <input id="total_fight_time_reset_minutes" type="number" min="0" step="1" value="4" class="form-control"
                                                         placeholder="Minutes" aria-label="Minutes" aria-describedby="Minutes" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" data-bs-title="Minutes" oninput="total_fight_time_reset_change()">
                                                     <div class="input-group-prepend">
@@ -189,7 +189,7 @@
                                                         placeholder="Seconds" aria-label="Seconds" aria-describedby="Seconds" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" data-bs-title="Seconds" oninput="total_fight_time_reset_change()">
                                                     <a class="btn btn-success" onclick="reset_for_golden_score()" data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        data-bs-title="Reset for Golden Score">
+                                                        data-bs-title="Reset for Golden Score (G)">
                                                         <i class="fa fa-fw" style="width: 2em;">GS</i>
                                                         <span id="golden_score_time_reset_time">NaN</span>
                                                     </a>
@@ -200,7 +200,7 @@
                                         <div class="mb-2">
                                             <div class="d-flex justify-content-center mb-2">
                                                 <div class="input-group" style="width:23em;">
-                                                    <input id="central_clock_set_minutes" type="number" min="0" step="1" value="5" class="form-control"
+                                                    <input id="central_clock_set_minutes" type="number" min="0" step="1" value="4" class="form-control"
                                                         placeholder="Minutes" aria-label="Minutes" aria-describedby="Minutes" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" data-bs-title="Minutes" oninput="central_clock_set_change()">
                                                     <div class="input-group-prepend">
@@ -220,17 +220,16 @@
                                         <!-- Set osaekomi clock  -->
                                         <div class="mb-2">
                                             <div class="d-flex justify-content-center">
-                                                <div class="input-group" style="width:17em">
-                                                    <input id="osaekomi_seconds_input" type="number" min="0" step="1" value="10" class="form-control" placeholder="Osaekomi seconds" aria-label="Osaekomi seconds" aria-describedby="Osaekomi seconds">
-                                                    <button class="btn btn-success" type="button" onclick="apply_osaekomi_seconds()">Set Oaekomi Clock</button>
+                                                <div class="input-group" style="width:23em">
+                                                    <input id="osaekomi_seconds_input" type="number" min="0" max="20" step="1" value="10" class="form-control" placeholder="Osaekomi seconds" aria-label="Osaekomi seconds" aria-describedby="Osaekomi seconds">
+                                                    <button class="btn btn-success" type="button" onclick="apply_osaekomi_seconds()">Set Osaekomi Clock</button>
                                                 </div>
                                             </div>
                                         </div>
 										<!-- Set clock font size  -->
-										<!-- Set clock font size  -->
                                         <div class="mb-2">
                                             <div class="d-flex justify-content-center">
-                                                <div class="input-group" style="width:17em">
+                                                <div class="input-group" style="width:23em">
                                                     <input id="clock_font_size" type="number" min="1" max="22" step="1" value="13" class="form-control" placeholder="Clock font size" aria-label="Clock font size" aria-describedby="Clock font size">
                                                     <button class="btn btn-success" type="button" onclick="apply_clock_font_size()">Set Clock Font Size</button>
                                                 </div>
@@ -324,14 +323,13 @@
 
     <div class="container">
 
-        <h2>Custom changes to rules</h2>
+        <h2>Rules</h2>
 
-        In the following, you can adapt the scoreboard logic directly by modifying the below JSON configuration. Times are in milliseconds. Osaekomi times ("osaekomi_wazari_time", "osaekomi_ippon_time", "osaekomi_warn_unassigned") can be set to "null" (without the quotation marks) to disable them.
-
-        Adapt the JSON and click "Update and Reset" to apply the changes.
+        You can adapt the judoscoreboard logic directly by modifying the below JSON configuration.
+        Times are in milliseconds. Osaekomi times ("osaekomi_wazari_time", "osaekomi_ippon_time", "osaekomi_warn_unassigned") can be set to null to disable them.
 
         <div class="form-group">
-            <textarea class="form-control" id="fight_rules" name="fight_rules" rows="10" cols="50">Not loaded...</textarea>
+            <label for="fight_rules"></label><textarea class="form-control" id="fight_rules" name="fight_rules" rows="10" cols="50">Not loaded...</textarea>
             <button class="btn btn-primary mt-2" onclick="set_fight_rules(); reset_all(); window.scrollTo({ top: 0, behavior: 'smooth' });">Update and Reset</button>
         </div>
 
@@ -340,14 +338,12 @@
         To use this scoreboard in a tournament, proceed as follows:
 
         <ul>
-            <li>Prepare a laptop and connect it to a second monitor (or projector).</li>
-            <li>Open file index.html.</li>
+            <li>Connect your laptop/computer to a second monitor (or projector).</li>
             <li>Open a new view-only tab by clicking the eye icon.</li>
             <li>Move the opened tab to the second monitor.</li>
-            <li>Click into the moved tab and press F11 to make the page full screen.</li>
-            <li>Move the mouse back to the original tab and use the scoreboard from there.
-			Most buttons can also be triggered by keyboard shortcuts, which are noted as hover information on the respective buttons.
-			We recommend labeling the keyboard using stickers.</li>
+            <li>Click into the moved tab and press F11 (Windows OS) to make the page full screen.</li>
+            <li>Move the mouse back to the original tab and use the judoscoreboard from there.
+			Most buttons can also be triggered by keyboard shortcuts, which are noted as hover information on the respective buttons.</li>
         </ul>
 
         Here is an overview of all keyboard shortcuts:
@@ -367,6 +363,10 @@
                 <tr>
                     <td>Mate</td>
                     <td>Space</td>
+                </tr>
+                <tr>
+                    <td>Golden Score</td>
+                    <td>G</td>
                 </tr>
                 <tr>
                     <td>Osaekomi</td>
@@ -420,7 +420,6 @@
           <li class="list-group-item">Icons from <a href="https://fontawesome.com/">FontAwesome</a></li>
           <li class="list-group-item">Audio from <a href="https://freesound.org">Freesound</a> (Public Domain)</li>
           <li class="list-group-item">Styles from <a href="https://getbootstrap.com/">Bootstrap</a></li>
-          <li class="list-group-item">Japanese flag from <a href="https://en.wikipedia.org/wiki/Flag_of_Japan#/media/File:Flag_of_Japan.svg">Wikipedia</a> (Public domain)</li>
         </ul>
       </div>
 
@@ -428,6 +427,7 @@
 
     <div id="audio">
         <audio id="audio_bell" src="./audio/sound_signal_02.mp3"></audio>
+        <audio id="audio_error" src="./audio/error.mp3"></audio>
     </div>
 
     <link href="./css/bootstrap.css" rel="stylesheet">

@@ -2,15 +2,15 @@
 // PREFETCH //
 //////////////
 // needs to be early, otherwise it is undefined in critical places
-var master_timer_ms = 10;
+let master_timer_ms = 10;
 
 /////////////////
 // FIGHT RULES //
 /////////////////
 
-var fight_rules = {
+let fight_rules = {
     // fight time
-    total_fight_time: 5 * 60 * 1000,
+    total_fight_time: 4 * 60 * 1000,
     // osaekomi times
     osaekomi_warn_unassigned: 2 * 1000,
     osaekomi_wazari_time: 10 * 1000,
@@ -25,7 +25,7 @@ var fight_rules = {
     count_wazaris_towards_ippon: 2,
     // sound
     osaekomi_error_sound_frequency_ms: 1000,
-    error_sound_volume: 1,
+    error_sound_volume: 0.5,
     win_sound_volume: 1,
     // keys
     enable_reset_by_enter: true
@@ -36,34 +36,34 @@ var fight_rules = {
 /////////////////
 
 function get_initial_fight_state() {
-    console.assert(fight_rules.total_fight_time % master_timer_ms == 0, "Total fight time invalid");
+    console.assert(fight_rules.total_fight_time % master_timer_ms === 0, "Total fight time invalid");
     if (fight_rules.osaekomi_warn_unassigned != null) {
-        console.assert(fight_rules.osaekomi_warn_unassigned % master_timer_ms == 0, "Osaekomi warn time invalid");
+        console.assert(fight_rules.osaekomi_warn_unassigned % master_timer_ms === 0, "Osaekomi warn time invalid");
     }
     if (fight_rules.osaekomi_wazari_time != null) {
-        console.assert(fight_rules.osaekomi_wazari_time % master_timer_ms == 0, "Osaekomi wazari time invalid");
+        console.assert(fight_rules.osaekomi_wazari_time % master_timer_ms === 0, "Osaekomi wazari time invalid");
     }
     if (fight_rules.osaekomi_ippon_time != null) {
-        console.assert(fight_rules.osaekomi_ippon_time % master_timer_ms == 0, "Osaekomi ippon time invalid");
+        console.assert(fight_rules.osaekomi_ippon_time % master_timer_ms === 0, "Osaekomi ippon time invalid");
     }
     if (fight_rules.osaekomi_max_time != null) {
-        console.assert(fight_rules.osaekomi_max_time % master_timer_ms == 0, "Osaekomi max time invalid");
+        console.assert(fight_rules.osaekomi_max_time % master_timer_ms === 0, "Osaekomi max time invalid");
     }
 
 
-    points = {
-            0: {
-                'ippon': 0,
-                'wazari': 0,
-                'shido': 0
-            },
-            1: {
-                'ippon': 0,
-                'wazari': 0,
-                'shido': 0
-            }
+    let points = {
+        0: {
+            'ippon': 0,
+            'wazari': 0,
+            'shido': 0
+        },
+        1: {
+            'ippon': 0,
+            'wazari': 0,
+            'shido': 0
+        }
     };
-    state = {
+    return {
         // clock
         central_clock_running: false,
         central_clock_ms: fight_rules.total_fight_time,
@@ -76,9 +76,8 @@ function get_initial_fight_state() {
         // golden score
         is_golden_score: false,
     };
-    return state;
 }
-var fight_state = get_initial_fight_state();
+let fight_state = get_initial_fight_state();
 
 /////////////////
 // FIGHT LOGIC //
@@ -90,7 +89,7 @@ var fight_state = get_initial_fight_state();
 function master_timer_tick() {
     if (fight_state.central_clock_running) {
         fight_state.central_clock_ms -= master_timer_ms;
-    
+
         if (fight_state.is_golden_score) {
 
         } else {
@@ -106,17 +105,17 @@ function master_timer_tick() {
     if (fight_state.osaekomi_running) {
         fight_state.osaekomi_ms += master_timer_ms;
 
-        if (fight_state.osaekomi_holder != -1) {
+        if (fight_state.osaekomi_holder !== -1) {
             if (
                 fight_rules.osaekomi_wazari_time != null &&
-                fight_state.osaekomi_ms == fight_rules.osaekomi_wazari_time
+                fight_state.osaekomi_ms === fight_rules.osaekomi_wazari_time
             ) {
                 add_point(fight_state.osaekomi_holder, 'wazari');
             }
 
             if (
                 fight_rules.osaekomi_ippon_time != null &&
-                fight_state.osaekomi_ms == fight_rules.osaekomi_ippon_time
+                fight_state.osaekomi_ms === fight_rules.osaekomi_ippon_time
             ) {
                 remove_point(fight_state.osaekomi_holder, 'wazari');
                 add_point(fight_state.osaekomi_holder, 'ippon');
@@ -125,7 +124,7 @@ function master_timer_tick() {
 
         if (
             fight_rules.osaekomi_max_time != null &&
-            fight_state.osaekomi_ms == fight_rules.osaekomi_max_time
+            fight_state.osaekomi_ms === fight_rules.osaekomi_max_time
         ) {
             fight_state.osaekomi_running = false
         }
@@ -151,50 +150,56 @@ function add_point(fighter, point_name) {
 
     // ippon stop?
     const n_ippons = get_n_ippons(fighter);
-    const ippon_stop = 
-        n_ippons_before != n_ippons &&
+    const ippon_stop =
+        n_ippons_before !== n_ippons &&
         fight_rules.stop_clock_on_ippon != null &&
-        n_ippons % fight_rules.stop_clock_on_ippon == 0;
+        n_ippons % fight_rules.stop_clock_on_ippon === 0;
 
     // wazari stop?
     const n_wazaris = fight_state.points[fighter]['wazari'];
     const wazari_stop =
-        n_wazaris_before != n_wazaris &&
+        n_wazaris_before !== n_wazaris &&
         fight_rules.stop_clock_on_wazari != null &&
-        n_wazaris % fight_rules.stop_clock_on_wazari == 0;
-    
+        n_wazaris % fight_rules.stop_clock_on_wazari === 0;
+
     // shido stop?
     const n_shidos = fight_state.points[fighter]['shido'];
     const shido_stop =
-        n_shidos_before != n_shidos &&
+        n_shidos_before !== n_shidos &&
         fight_rules.stop_clock_on_shido != null &&
-        n_shidos % fight_rules.stop_clock_on_shido == 0;
+        n_shidos % fight_rules.stop_clock_on_shido === 0;
 
-    if (ippon_stop || wazari_stop || shido_stop) {
+    if (ippon_stop || wazari_stop) {
+        fight_state.points[fighter]['wazari'] = 0
+        fight_state.points[fighter]['ippon'] = 1
+        ring_bell();
+        matte();
+    } else if (shido_stop) {
+        fight_state.points[fighter]['ippon'] = 1
         ring_bell();
         matte();
     }
 
     // ippon osaekomi stop?
-    const ippon_osaekomi_stop = 
-        n_ippons_before != n_ippons &&
+    const ippon_osaekomi_stop =
+        n_ippons_before !== n_ippons &&
         fight_rules.stop_osaekomi_on_ippon != null &&
-        n_ippons % fight_rules.stop_osaekomi_on_ippon == 0;
-    
+        n_ippons % fight_rules.stop_osaekomi_on_ippon === 0;
+
     // wazari osaekomi stop?
     const wazari_osaekomi_stop =
-        n_wazaris_before != n_wazaris &&
+        n_wazaris_before !== n_wazaris &&
         fight_rules.stop_osaekomi_on_wazari != null &&
-        n_wazaris % fight_rules.stop_osaekomi_on_wazari == 0;
-    
+        n_wazaris % fight_rules.stop_osaekomi_on_wazari === 0;
+
     if (ippon_osaekomi_stop || wazari_osaekomi_stop) {
-        ring_bell();
+        //ring_bell();
         fight_state.osaekomi_running = false;
     }
 
 }
 function get_n_ippons(fighter) {
-    var n_ippons = fight_state.points[fighter]['ippon'];
+    let n_ippons = fight_state.points[fighter]['ippon'];
     if (fight_rules.count_wazaris_towards_ippon != null) {
         n_ippons += Math.floor(fight_state.points[fighter]['wazari'] / fight_rules.count_wazaris_towards_ippon);
     }
@@ -202,7 +207,7 @@ function get_n_ippons(fighter) {
 }
 
 function remove_point(fighter, point_name) {
-    var current = fight_state.points[fighter][point_name];
+    let current = fight_state.points[fighter][point_name];
     current = Math.max(current - 1, 0);
     fight_state.points[fighter][point_name] = current;
 }
@@ -227,14 +232,14 @@ function osaekomi() {
  * - Starts if osaekomi is not yet running
  * - Removes from previous holder (if they were set)
  * - Awards points if there are any to assign
- * 
+ *
  */
 function osaekomi_assign(fighter, start_on_zero=true) {
-    if (fight_state.osaekomi_ms == 0 && start_on_zero) {
+    if (fight_state.osaekomi_ms === 0 && start_on_zero) {
         osaekomi();
     }
 
-    if (fight_state.osaekomi_holder != -1) {
+    if (fight_state.osaekomi_holder !== -1) {
         // remove previously assigned points
         if (
             fight_rules.osaekomi_ippon_time != null &&
@@ -251,7 +256,7 @@ function osaekomi_assign(fighter, start_on_zero=true) {
 
     fight_state.osaekomi_holder = fighter;
 
-    if (fighter != -1) {
+    if (fighter !== -1) {
         if (
             fight_rules.osaekomi_ippon_time != null &&
             fight_state.osaekomi_ms >= fight_rules.osaekomi_ippon_time
@@ -282,19 +287,17 @@ function osaekomi_reset() {
 // DISPLAY //
 /////////////
 
-var div_point_ids_warned_about = new Set();
-var osaekomi_assign_original_width = document.getElementById('osaekomi_assign_0').style.width;
-var osaekomi_assign_text_original_width = document.getElementById('osaekomi_assign_text').style.width;
-
+let div_point_ids_warned_about = new Set();
+let osaekomi_assign_original_width = document.getElementById('osaekomi_assign_0').style.width;
 
 /**
- * 
+ *
  * @param {*} element The element with the tooltip
  * @param {*} text the new text to put
  */
 function update_tooltip(element, text) {
-    var tooltip = bootstrap.Tooltip.getInstance(element);
-    if (tooltip._config.title != text) {
+    let tooltip = bootstrap.Tooltip.getInstance(element);
+    if (tooltip._config.title !== text) {
         tooltip._config.title = text;
         if (tooltip.tip) {
             tooltip.show();
@@ -307,11 +310,11 @@ function update_tooltip(element, text) {
  */
 function update_display(){
     // total fight time reset button
-    var reset = document.getElementById("total_fight_time_reset_time");
+    let reset = document.getElementById("total_fight_time_reset_time");
     reset.innerHTML = format_time_minutes(fight_rules.total_fight_time);
 
     // golden score
-    div = document.getElementById('overtime');
+    let div = document.getElementById('overtime');
     if (fight_state.is_golden_score) {
         div.style.display = null;
     } else {
@@ -325,8 +328,8 @@ function update_display(){
     div.innerHTML = format_time_tenths(fight_state.central_clock_ms);
 
     // central clock buttons
-    var pause_continue = document.getElementById('central_clock_pause_continue');
-    var pause_continue_img = document.getElementById('central_clock_pause_continue_img');
+    let pause_continue = document.getElementById('central_clock_pause_continue');
+    let pause_continue_img = document.getElementById('central_clock_pause_continue_img');
     pause_continue_img.classList.remove('fa-play');
     pause_continue_img.classList.remove('fa-pause');
     if (fight_state.central_clock_running) {
@@ -344,19 +347,19 @@ function update_display(){
     div.innerHTML = format_time_tenths(fight_state.osaekomi_ms);
 
     // reset osaekomi assign
-    div_0 = document.getElementById('osaekomi_assign_0');
-    div_1 = document.getElementById('osaekomi_assign_1');
-    div_text = document.getElementById('osaekomi_assign_text');
-    
+    let div_0 = document.getElementById('osaekomi_assign_0');
+    let div_1 = document.getElementById('osaekomi_assign_1');
+    let div_text = document.getElementById('osaekomi_assign_text');
+
     // set osaekomi assign correctly
     div_0.style.width = osaekomi_assign_original_width;
     div_1.style.width = osaekomi_assign_original_width;
     div_text.style.display = null;
-    if (fight_state.osaekomi_holder == 0) {
+    if (fight_state.osaekomi_holder === 0) {
         div_0.style.width = '45%';
         div_1.style.width = '15%';
         div_text.style.display = 'none';
-    } else if (fight_state.osaekomi_holder == 1) {
+    } else if (fight_state.osaekomi_holder === 1) {
         div_0.style.width = '15%';
         div_1.style.width = '45%';
         div_text.style.display = 'none';
@@ -367,13 +370,13 @@ function update_display(){
     div.classList.remove('osaekomi_assign_stress');
     if (
         fight_rules.osaekomi_warn_unassigned != null &&
-        fight_state.osaekomi_holder == -1 &&
+        fight_state.osaekomi_holder === -1 &&
         fight_state.osaekomi_ms > fight_rules.osaekomi_warn_unassigned
     ) {
         div.classList.add('osaekomi_assign_stress');
-        if (fight_state.osaekomi_running && fight_state.osaekomi_ms % fight_rules.osaekomi_error_sound_frequency_ms == 0) {
+        if (fight_state.osaekomi_running && fight_state.osaekomi_ms % fight_rules.osaekomi_error_sound_frequency_ms === 0) {
             if (!is_view) {
-                var audio = document.getElementById("audio_error");
+                let audio = document.getElementById("audio_error");
                 audio.volume = fight_rules.error_sound_volume;
                 audio.play();
             }
@@ -381,15 +384,15 @@ function update_display(){
     }
 
     // osaekomi buttons
-    start_stop = document.getElementById('osaekomi_start_stop');
-    start_stop_img = document.getElementById('osaekomi_start_stop_img');
+    let start_stop = document.getElementById('osaekomi_start_stop');
+    let start_stop_img = document.getElementById('osaekomi_start_stop_img');
     start_stop_img.classList.remove('fa-play');
     start_stop_img.classList.remove('fa-stop');
     start_stop_img.classList.remove('fa-repeat');
     if (fight_state.osaekomi_running) {
         update_tooltip(start_stop, 'Toketa (W)');
         start_stop_img.classList.add('fa-stop');
-    } else if (fight_state.osaekomi_ms == 0) {
+    } else if (fight_state.osaekomi_ms === 0) {
         update_tooltip(start_stop, 'Osaekomi (W)');
         start_stop_img.classList.add('fa-play');
     } else {
@@ -404,7 +407,7 @@ function update_display(){
     if (fight_state.osaekomi_running) {
         update_tooltip(pause_continue, 'Pause');
         pause_continue_img.classList.add('fa-pause');
-    } else if (fight_state.osaekomi_ms == 0) {
+    } else if (fight_state.osaekomi_ms === 0) {
         update_tooltip(pause_continue, 'Continue (C)');
         pause_continue_img.classList.add('fa-play');
     } else {
@@ -416,32 +419,40 @@ function update_display(){
     reset.classList.remove('disabled');
     if (fight_state.osaekomi_running) {
         // leave enabled
-    } else if (fight_state.osaekomi_ms == 0) {
+    } else if (fight_state.osaekomi_ms === 0) {
         reset.classList.add('disabled');
     } else {
         // leave enabled
     }
 
     // points
-    for (var i=0;i<2;i++) {
+    let points;
+    let div_point_id;
+    let div_point;
+    for (let i = 0; i < 2; i++) {
         points = fight_state.points[i];
-        for (const point in points){
+        for (const point in points) {
             div_point_id = 'point_' + i + '_' + point;
             div_point = document.getElementById(div_point_id);
             if (div_point == null) {
-                if (! div_point_ids_warned_about.has(div_point_id)) {
+                if (!div_point_ids_warned_about.has(div_point_id)) {
                     div_point_ids_warned_about.add(div_point_id);
                     console.warn("Point", point, "has no div tag under id", div_point_id);
                 }
             } else {
-                div_point.innerHTML = points[point];
+                if (point === "shido") {
+                    let final_img = points[point] === 0 ? 'none' : points[point] === 1 ? 'yellow1' : points[point] === 2 ? 'yellow2' : points[point] === 3 ? 'red' : 'none';
+                    div_point.innerHTML = `<img class="lh-1" id="shido_${i}_cards" src="images/shido-${final_img}.png" alt="shido-${i}-cards" style="height: 192px">`
+                } else {
+                    div_point.innerHTML = points[point];
+                }
             }
         }
     }
 }
 
 function format_time_seconds(milliseconds) {
-    var total_seconds = Math.floor(milliseconds / 1000);
+    let total_seconds = Math.floor(milliseconds / 1000);
     return total_seconds.toString();
 }
 
@@ -450,26 +461,24 @@ function format_time_seconds(milliseconds) {
  * - On negative inputs, remove the sign from the output
  */
 function format_time_minutes(milliseconds) {
-    var seconds =  Math.floor(Math.abs(milliseconds / 1000));
+    let seconds =  Math.floor(Math.abs(milliseconds / 1000));
 
-    var minutes = Math.floor(seconds / 60);
+    let minutes = Math.floor(seconds / 60);
     minutes = Math.abs(minutes);
 
     seconds = Math.abs(seconds);
     seconds = seconds % 60;
 
-    var formatted_time = minutes.toString() + ':' + (seconds < 10 ? '0' : '') + seconds;
-
-    return formatted_time;
+    return minutes.toString() + ':' + (seconds < 10 ? '0' : '') + seconds;
 }
 
 /**
- * 
+ *
  * @returns tenths of seconds
  * - On negative inputs, remove the sign from the output
  */
 function format_time_tenths(milliseconds) {
-    tenths = Math.floor((milliseconds % 1000) / 100);
+    let tenths = Math.floor((milliseconds % 1000) / 100);
     if (tenths < 0) {
         tenths = -tenths;
         tenths %= 10;
@@ -529,7 +538,7 @@ function golden_score_time_set_change() {
 
     const ms = minutes * 60 * 1000 + seconds * 1000;
 
-    var element = document.getElementById("golden_score_time_reset_time");
+    let element = document.getElementById("golden_score_time_reset_time");
     element.innerHTML = format_time_minutes(ms);
 
     return ms;
@@ -543,8 +552,7 @@ function reset_for_golden_score() {
     seconds_input.value = 0;
 
     matte();
-    const ms = golden_score_time_set_change()
-    fight_state.central_clock_ms = ms;
+    fight_state.central_clock_ms = golden_score_time_set_change();
     fight_state.is_golden_score = true;
 }
 
@@ -557,7 +565,7 @@ function central_clock_set_change() {
 
     const ms = minutes * 60 * 1000 + seconds * 1000;
 
-    var element = document.getElementById("central_clock_set_time");
+    let element = document.getElementById("central_clock_set_time");
     element.innerHTML = format_time_minutes(ms);
 
     return ms;
@@ -570,7 +578,7 @@ function central_clock_set() {
 }
 
 function get_number_from_input(input) {
-    if (input.value == "") {
+    if (input.value === "") {
         return 0;
     } else {
         return parseInt(input.value);
@@ -582,7 +590,7 @@ function get_number_from_input(input) {
  */
 function apply_osaekomi_seconds() {
     // record and remove osaekomi holder
-    var osaekomi_holder = fight_state.osaekomi_holder;
+    let osaekomi_holder = fight_state.osaekomi_holder;
     osaekomi_assign(-1, false);
 
     const seconds_input = document.getElementById("osaekomi_seconds_input");
@@ -597,11 +605,17 @@ function apply_osaekomi_seconds() {
  * Set the clock font size to a given value
  */
 function apply_clock_font_size() {
-    const size_input = document.getElementById("clock_font_size");
-    const size_int = parseInt(size_input.value);
-	
-	var actual_clock = document.getElementById('central_clock_time');
-	actual_clock.style.fontSize = `${size_int}em`
+    let size_input = document.getElementById("clock_font_size");
+    let size_int = parseInt(size_input.value);
+
+	let fight_clock = document.getElementById('central_clock_time');
+    let osaekomi_clock = document.getElementById('osaekomi_time');
+
+    let final_size = `${size_int}em`
+
+	fight_clock.style.fontSize = final_size;
+    osaekomi_clock.style.fontSize = final_size;
+
 }
 
 
@@ -621,66 +635,70 @@ function set_fight_rules() {
 
 function register_keys() {
     document.body.addEventListener("keydown", (event) => {
-        var ignore = false;
+        let ignore = false;
 
         // element on which the event was originally fired
-        source = event.target,
+        let source = event.target;
         // exclude these elements
-        exclude = ['input', 'textarea'];
+        let exclude = ['input', 'textarea'];
         if (exclude.indexOf(source.tagName.toLowerCase()) !== -1) {
             // process the keypress normally
             return;
         }
 
-        if (event.keyCode == 32) { // space
+        if (event.code === "Space") { // space
             central_clock_time_click();
             ignore = true;
         }
 
-        if (event.keyCode == 65) { // A
+        if (event.code === "KeyA") { // A
             osaekomi_assign(0);
             ignore = true;
         }
-        if (event.keyCode == 87) { // W
+        if (event.code === "KeyW") { // W
             osaekomi_start_stop();
             ignore = true;
         }
-        if (event.keyCode == 83) { // S
+        if (event.code === "KeyS") { // S
             osaekomi_reset();
             ignore = true;
         }
-        if (event.keyCode == 68) { // D
+        if (event.code === "KeyD") { // D
             osaekomi_assign(1);
             ignore = true;
         }
-        if (event.keyCode == 67) { // C
+        if (event.code === "KeyC") { // C
             osaekomi_continue();
             ignore = true;
         }
+        if (event.code === "KeyG") { // G
+            reset_for_golden_score();
+            ignore = true;
+        }
 
-        var fighter = null;
-        var point = null;
-        if (event.keyCode == 49 || event.keyCode == 97) { // 1
+        let fighter = null;
+        let point = null;
+        if (event.code === "Digit1" || event.code === "Numpad1") { // 1
             fighter = 0;
             point = 'ippon';
         }
-        if (event.keyCode == 50 || event.keyCode == 98) { // 2
+        if (event.code === "Digit2" || event.code === "Numpad2") { // 2
             fighter = 0;
             point = 'wazari'
         }
-        if (event.keyCode == 51 || event.keyCode == 99 ) { // 3
+        if (event.code === "Digit3" || event.code === "Numpad3") { // 3
             fighter = 0;
             point = 'shido'
         }
-        if (event.keyCode == 52 || event.keyCode == 100) { // 4
+        if (event.code === "Digit4" || event.code === "Numpad4") { // 4
             fighter = 1;
             point = 'ippon';
         }
-        if (event.keyCode == 53 || event.keyCode == 101) { // 5
+        if (event.code === "Digit5" || event.code === "Numpad5") { // 5
             fighter = 1;
             point = 'wazari';
         }
-        if (event.keyCode == 54 || event.keyCode == 102) { // 6
+        if (event.code === "Digit6" || event.code === "Numpad6") { // 6
             fighter = 1;
             point = 'shido';
         }
@@ -693,7 +711,7 @@ function register_keys() {
             ignore = true;
         }
 
-        if (event.keyCode == 13 && fight_rules.enable_reset_by_enter) { // Enter
+        if ((event.code === "Enter" || event.code === "NumpadEnter") && fight_rules.enable_reset_by_enter) { // Enter
             reset_all();
             ignore = true;
         }
@@ -710,7 +728,7 @@ function register_keys() {
 
 function ring_bell() {
     if (! is_view) {
-        var audio = document.getElementById('audio_bell');
+        let audio = document.getElementById('audio_bell');
         audio.volume = fight_rules.win_sound_volume;
         audio.play();
     }
@@ -724,27 +742,27 @@ function ring_bell() {
  * A custom timer that compensates for delays, i.e., runs multiple time
  * steps if it is behind schedule
  */
-var master_timer_next_tick_ms = null;
-var master_timer_delta_max_reported = 0;
-var master_timer_n_calls = 0;
-var master_timer_first_tick_ms;
-var master_timer_function = null;
-var master_timer_final = null;
+let master_timer_next_tick_ms = null;
+let master_timer_delta_max_reported = 0;
+let master_timer_n_calls = 0;
+let master_timer_first_tick_ms;
+let master_timer_function = null;
+let master_timer_final = null;
 function master_timer_handler() {
     if (master_timer_next_tick_ms == null) {
         master_timer_next_tick_ms = window.performance.now();
         master_timer_first_tick_ms = master_timer_next_tick_ms;
     }
-    var now = window.performance.now();
+    let now = window.performance.now();
 
     // check performance
     master_timer_n_calls += 1;
-    var average_call_frequency = (now - master_timer_first_tick_ms) / master_timer_n_calls;
-    if (master_timer_n_calls % 1000 == 0) {
+    let average_call_frequency = (now - master_timer_first_tick_ms) / master_timer_n_calls;
+    if (master_timer_n_calls % 1000 === 0) {
         console.log(`Average call frequency: ${average_call_frequency}ms`);
     }
 
-    var delta = now-master_timer_next_tick_ms;
+    let delta = now-master_timer_next_tick_ms;
     if (delta >= master_timer_ms * 1.1 && delta > master_timer_delta_max_reported && master_timer_n_calls >= 1000) {
         master_timer_delta_max_reported = delta;
         console.warn(`Master timer is behind. We would like to run it every ${master_timer_ms}ms, now is ${now}ms and the next tick is only at ${master_timer_next_tick_ms}ms (Delta: ${delta}ms)`);
@@ -757,7 +775,7 @@ function master_timer_handler() {
     }
 
     // set timer for next call
-    delay_until_next = Math.max(0, master_timer_next_tick_ms - now);
+    let delay_until_next = Math.max(0, master_timer_next_tick_ms - now);
     setTimeout(master_timer_handler, delay_until_next);
 
     // wrap up
@@ -773,7 +791,7 @@ const broadcast = new BroadcastChannel("fight_state");
 
 function broadcast_fight_state() {
     broadcast.postMessage(fight_state);
-    // var fight_state_string = JSON.stringify(fight_state);
+    // let fight_state_string = JSON.stringify(fight_state);
     // localStorage.setItem('fight_state', fight_state_string);
 }
 
@@ -781,12 +799,12 @@ function broadcast_fight_state() {
  * Logic to enable the view-only window
  */
 function display_view_only() {
-    var div_body = document.querySelector('body');
+    let div_body = document.querySelector('body');
     div_body.style.overflow = 'hidden';
 
-    var optionals = document.getElementsByClassName('optional');
+    let optionals = document.getElementsByClassName('optional');
 
-    for(i = 0; i < optionals.length; i++) {
+    for(let i = 0; i < optionals.length; i++) {
         optionals[i].classList.add('hidden');
     }
 

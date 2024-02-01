@@ -1,19 +1,19 @@
 body {
     background-color: #ffffff;
     /* remove whitespace around scoreboard */
-    padding: 0px;
-    margin: 0px;
+    padding: 0;
+    margin: 0;
 }
 .scoreboard_full { /* the full scoreboard including points and times */
     /* remove whitespace around scoreboard */
     border-collapse: collapse;
-    border: 0px;
+    border: 0;
     /* use full width and height */
     width: 100%;
     height: 100vh;
 }
 .scoreboard_full > tbody > tr > td {
-    padding: 0px;
+    padding: 0;
     text-align: center;
 }
 
@@ -23,9 +23,7 @@ body {
     height: 100%;
 }
 
-.scoreboard_time_row { /* the row containing timers (central/osaekomi) */
-    background-color: #000000;
-}
+/* the row containing timers (central/osaekomi) */
 .scoreboard_time_row > * {
     color: white;
 }
