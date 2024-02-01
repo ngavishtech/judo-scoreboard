@@ -74,7 +74,7 @@ function get_initial_fight_state() {
         osaekomi_running: false,
         osaekomi_holder: -1,
         // golden score
-        is_golden_score: false,
+        is_golden_score: false
     };
 }
 let fight_state = get_initial_fight_state();
@@ -158,9 +158,10 @@ function add_point(fighter, point_name) {
     // wazari stop?
     const n_wazaris = fight_state.points[fighter]['wazari'];
     const wazari_stop =
-        n_wazaris_before !== n_wazaris &&
+        (n_wazaris_before !== n_wazaris &&
         fight_rules.stop_clock_on_wazari != null &&
-        n_wazaris % fight_rules.stop_clock_on_wazari === 0;
+        n_wazaris % fight_rules.stop_clock_on_wazari === 0) ||
+        (fight_state.is_golden_score && n_wazaris_before !== n_wazaris);
 
     // shido stop?
     const n_shidos = fight_state.points[fighter]['shido'];
@@ -170,12 +171,17 @@ function add_point(fighter, point_name) {
         n_shidos % fight_rules.stop_clock_on_shido === 0;
 
     if (ippon_stop || wazari_stop) {
-        fight_state.points[fighter]['wazari'] = 0
-        fight_state.points[fighter]['ippon'] = 1
+        if (!fight_state.is_golden_score) {
+            fight_state.points[fighter]['wazari'] = n_wazaris === 1 ? 1 : 0;
+            fight_state.points[fighter]['ippon'] = 1;
+        } else {
+            fight_state.points[fighter]['wazari'] = n_wazaris;
+            fight_state.points[fighter]['ippon'] = n_ippons;
+        }
         ring_bell();
         matte();
     } else if (shido_stop) {
-        fight_state.points[fighter]['ippon'] = 1
+        fight_state.points[fighter]['ippon'] = 1;
         ring_bell();
         matte();
     }
