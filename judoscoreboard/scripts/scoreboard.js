@@ -171,17 +171,12 @@ function add_point(fighter, point_name) {
         n_shidos % fight_rules.stop_clock_on_shido === 0;
 
     if (ippon_stop || wazari_stop) {
-        if (!fight_state.is_golden_score) {
-            fight_state.points[fighter]['wazari'] = n_wazaris === 1 ? 1 : 0;
-            fight_state.points[fighter]['ippon'] = 1;
-        } else {
-            fight_state.points[fighter]['wazari'] = n_wazaris;
-            fight_state.points[fighter]['ippon'] = n_ippons;
-        }
+        fight_state.points[fighter]['wazari'] = n_wazaris === 1 ? 1 : 0;
+        fight_state.points[fighter]['ippon'] = (n_wazaris !== 1) || (n_ippons === 1) ? 1 : 0;
         ring_bell();
         matte();
     } else if (shido_stop) {
-        fight_state.points[fighter]['ippon'] = 1;
+        fight_state.points[1 - fighter]['ippon'] = 1;
         ring_bell();
         matte();
     }
@@ -199,7 +194,6 @@ function add_point(fighter, point_name) {
         n_wazaris % fight_rules.stop_osaekomi_on_wazari === 0;
 
     if (ippon_osaekomi_stop || wazari_osaekomi_stop) {
-        //ring_bell();
         fight_state.osaekomi_running = false;
     }
 
