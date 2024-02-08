@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <title>Judo Scoreboard</title>
-    <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="./images/judo_pictogram.svg">
 </head>
 <body>
     <table class="scoreboard_full">
@@ -13,9 +13,6 @@
                         <tbody>
                             <tr>
                                 <td style="width:35%">
-                                    <div class="point_title">
-                                        Ippon
-                                    </div>
                                     <div class="point">
                                         <button
                                             onclick="remove_point(0,'ippon')"
@@ -23,7 +20,7 @@
                                             class="btn btn-secondary optional"
                                             data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Remove Ippon (Shift/Ctrl+1)"
                                         >-</button>
-                                        <span class="lh-1" onclick="add_point(0,'ippon')" id="point_0_ippon">NaN</span>
+                                        <span class="lh-sm" onclick="add_point(0,'ippon')" id="point_0_ippon">NaN</span>
                                         <button
                                             onclick="add_point(0,'ippon')"
                                             type="button"
@@ -33,9 +30,6 @@
                                     </div>
                                 </td>
                                 <td style="width:35%">
-                                    <div class="point_title">
-                                        Wazari
-                                    </div>
                                     <div class="point">
                                         <button
                                             onclick="remove_point(0,'wazari')"
@@ -43,7 +37,7 @@
                                             class="btn btn-secondary optional"
                                             data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Remove Wazari (Shift/Ctrl+2)"
                                         >-</button>
-                                        <span class="lh-1" onclick="add_point(0,'wazari')" id="point_0_wazari">NaN</span>
+                                        <span class="lh-sm" onclick="add_point(0,'wazari')" id="point_0_wazari">NaN</span>
                                         <button
                                             onclick="add_point(0,'wazari')"
                                             type="button"
@@ -53,9 +47,6 @@
                                     </div>
                                 </td>
                                 <td style="width:30%">
-                                    <div class="point_title">
-                                        Shido
-                                    </div>
                                     <div class="point penalty">
                                         <button
                                             onclick="remove_point(0,'shido')"
@@ -63,7 +54,7 @@
                                             class="btn btn-secondary optional"
                                             data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Remove Shido (Shift/Ctrl+3)"
                                         >-</button>
-                                        <span class="lh-1" onclick="add_point(0,'shido')" id="point_0_shido">NaN</span>
+                                        <span class="lh-sm" onclick="add_point(0,'shido')" id="point_0_shido">NaN</span>
                                         <button
                                             onclick="add_point(0,'shido')"
                                             type="button"
@@ -83,9 +74,6 @@
                         <tbody>
                             <tr>
                                 <td style="width:35%">
-                                    <div class="point_title">
-                                        Ippon
-                                    </div>
                                     <div class="point">
                                         <button
                                             onclick="remove_point(1,'ippon')"
@@ -93,7 +81,7 @@
                                             class="btn btn-light optional"
                                             data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Remove Ippon (Shift/Ctrl+4)"
                                         >-</button>
-                                        <span class="lh-1" onclick="add_point(1,'ippon')" id="point_1_ippon">NaN</span>
+                                        <span class="lh-sm" onclick="add_point(1,'ippon')" id="point_1_ippon">NaN</span>
                                         <button
                                             onclick="add_point(1,'ippon')"
                                             type="button"
@@ -103,9 +91,6 @@
                                     </div>
                                 </td>
                                 <td style="width:35%">
-                                    <div class="point_title">
-                                        Wazari
-                                    </div>
                                     <div class="point">
                                         <button
                                             onclick="remove_point(1,'wazari')"
@@ -113,7 +98,7 @@
                                             class="btn btn-light optional"
                                             data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Remove Wazari (Shift/Ctrl+5)"
                                         >-</button>
-                                        <span class="lh-1" onclick="add_point(1,'wazari')" id="point_1_wazari">NaN</span>
+                                        <span class="lh-sm" onclick="add_point(1,'wazari')" id="point_1_wazari">NaN</span>
                                         <button
                                             onclick="add_point(1,'wazari')"
                                             type="button"
@@ -123,9 +108,6 @@
                                     </div>
                                 </td>
                                 <td style="width:30%">
-                                    <div class="point_title">
-                                        Shido
-                                    </div>
                                     <div class="point penalty">
                                         <button
                                             onclick="remove_point(1,'shido')"
@@ -133,7 +115,7 @@
                                             class="btn btn-light optional"
                                             data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Remove Shido (Shift/Ctrl+6)"
                                         >-</button>
-                                        <span class="lh-1" onclick="add_point(1,'shido')" id="point_1_shido">NaN</span>
+                                        <span class="lh-sm" onclick="add_point(1,'shido')" id="point_1_shido">NaN</span>
                                         <button
                                             onclick="add_point(1,'shido')"
                                             type="button"
@@ -242,7 +224,7 @@
                                         <span id="overtime" style="display: none">
                                             GS
                                         </span>
-                                        <span onclick="central_clock_time_click()" id="central_clock_time" class="timer_seconds lh-1">NaN</span>
+                                        <span onclick="central_clock_time_click()" id="central_clock_time" class="timer_seconds lh-sm">NaN</span>
                                         <span class="timer_tenths">
                                             <span style="visibility: hidden;">.</span>
                                             <span id="central_clock_time_tenths" style="visibility: hidden;">NaN</span>
@@ -258,14 +240,16 @@
                                 </td>
                                 <td style="width: 30%">
                                     <div class="timer" style="color:#0bff18;">
-                                        <span onclick="osaekomi_start_stop()" id="osaekomi_time" class="timer_seconds lh-1">NaN</span>
-                                        <span class="timer_tenths">
-                                            <span style="visibility: hidden;">.</span>
-                                            <span id="osaekomi_time_tenths" style="visibility: hidden;">NaN</span>
-                                        </span>
+                                        <button class="btn" type="button" id="osaekomi_assign_view" style="width: 20%; height: 50px; margin-top: 25px; cursor: default; visibility: hidden"></button>
+                                        <span onclick="osaekomi_start_stop()" id="osaekomi_time" class="timer_seconds lh-sm">NaN</span>
+                                        <button type="button" id="osaekomi_assign_view_hidden" style="width: 20%; visibility: hidden" disabled></button>
+<!--                                        <span class="timer_tenths">-->
+<!--                                            <span style="visibility: hidden;">.</span>-->
+<!--                                            <span id="osaekomi_time_tenths" style="visibility: hidden;">NaN</span>-->
+<!--                                        </span>-->
                                     </div>
-                                    <div class="optional">
-                                        <div class="mb-2">
+                                    <div>
+                                        <div class="mb-2 optional">
                                             <a id="osaekomi_start_stop" class="btn btn-success" onclick="osaekomi_start_stop()" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Osaekomi (W)">
                                                 <i id="osaekomi_start_stop_img" class="fa fa-fw fa-play"></i>
                                             </a>
@@ -276,6 +260,8 @@
                                                 <i id="osaekomi_pause_continue_img" class="fa fa-fw fa-play"></i>
                                             </a>
                                         </div>
+                                    </div>
+                                    <div class="optional">
                                         <div class="mb-2">
                                             <div class="input-group d-flex justify-content-center">
                                                 <button
@@ -288,7 +274,7 @@
                                                 >
                                                     White
                                                 </button>
-                                                <span id="osaekomi_assign_text" class="input-group-text" style="background-color: transparent; color: white; border: 0px solid transparent; width: 20%; justify-content: center;">«« Tori ? »»</span>
+                                                <span id="osaekomi_assign_text" class="input-group-text" style="background-color: transparent; color: white; border: 0 solid transparent; width: 20%; justify-content: center;">«« Tori ? »»</span>
                                                 <button
                                                     class="btn btn-primary"
                                                     type="button"

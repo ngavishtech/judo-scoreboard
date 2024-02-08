@@ -63,6 +63,10 @@ body {
     font-size: 13em;
     cursor: pointer;
 }
+.osaekomi_seconds {
+    font-size: 13em;
+    cursor: pointer;
+}
 .timer_tenths {
     /* ensure this block does not affect alignment */
     width: 0;

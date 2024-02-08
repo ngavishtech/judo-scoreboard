@@ -341,39 +341,51 @@ function update_display(){
     }
 
     // osaekomi time
-    div = document.getElementById('osaekomi_time');
-    div.innerHTML = format_time_seconds(fight_state.osaekomi_ms);
-    div = document.getElementById('osaekomi_time_tenths');
-    div.innerHTML = format_time_tenths(fight_state.osaekomi_ms);
+    let div_osaekomi_time = document.getElementById('osaekomi_time');
+    div_osaekomi_time.innerHTML = format_time_seconds(fight_state.osaekomi_ms);
+    if (fight_state.osaekomi_ms === 0) {
+        div_osaekomi_time.style.color = '#596369'
+    } else {
+        div_osaekomi_time.style.color = '#0bff18'
+
+    }
+    // let div_osaekomi_time_tenths = document.getElementById('osaekomi_time_tenths');
+    // div_osaekomi_time_tenths.innerHTML = format_time_tenths(fight_state.osaekomi_ms);
 
     // reset osaekomi assign
-    let div_0 = document.getElementById('osaekomi_assign_0');
-    let div_1 = document.getElementById('osaekomi_assign_1');
+    // let div_0 = document.getElementById('osaekomi_assign_0');
+    // let div_1 = document.getElementById('osaekomi_assign_1');
     let div_text = document.getElementById('osaekomi_assign_text');
+    let div_assign_view = document.getElementById('osaekomi_assign_view');
 
     // set osaekomi assign correctly
-    div_0.style.width = osaekomi_assign_original_width;
-    div_1.style.width = osaekomi_assign_original_width;
+    // div_0.style.width = osaekomi_assign_original_width;
+    // div_1.style.width = osaekomi_assign_original_width;
     div_text.style.display = null;
     if (fight_state.osaekomi_holder === 0) {
-        div_0.style.width = '45%';
-        div_1.style.width = '15%';
-        div_text.style.display = 'none';
+        // div_0.style.width = '45%';
+        // div_1.style.width = '15%';
+        // div_text.style.display = 'none';
+        div_assign_view.style.backgroundColor = '#eeeeee';
+        div_assign_view.style.visibility = 'visible';
     } else if (fight_state.osaekomi_holder === 1) {
-        div_0.style.width = '15%';
-        div_1.style.width = '45%';
-        div_text.style.display = 'none';
+        // div_0.style.width = '15%';
+        // div_1.style.width = '45%';
+        // div_text.style.display = 'none';
+        div_assign_view.style.backgroundColor = '#1515ec';
+        div_assign_view.style.visibility = 'visible';
+    } else {
+        div_assign_view.style.visibility = 'hidden';
     }
 
     // highlight if forgotten
-    div = document.getElementById('osaekomi_assign_text');
-    div.classList.remove('osaekomi_assign_stress');
+    div_text.classList.remove('osaekomi_assign_stress');
     if (
         fight_rules.osaekomi_warn_unassigned != null &&
         fight_state.osaekomi_holder === -1 &&
         fight_state.osaekomi_ms > fight_rules.osaekomi_warn_unassigned
     ) {
-        div.classList.add('osaekomi_assign_stress');
+        div_text.classList.add('osaekomi_assign_stress');
         if (fight_state.osaekomi_running && fight_state.osaekomi_ms % fight_rules.osaekomi_error_sound_frequency_ms === 0) {
             if (!is_view) {
                 let audio = document.getElementById("audio_error");
@@ -442,7 +454,7 @@ function update_display(){
             } else {
                 if (point === "shido") {
                     let final_img = points[point] === 0 ? 'none' : points[point] === 1 ? 'yellow1' : points[point] === 2 ? 'yellow2' : points[point] === 3 ? 'red' : 'none';
-                    div_point.innerHTML = `<img class="lh-1" id="shido_${i}_cards" src="images/shido-${final_img}.png" alt="shido-${i}-cards" style="height: 192px">`
+                    div_point.innerHTML = `<img class="lh-sm" id="shido_${i}_cards" src="images/shido-${final_img}.png" alt="shido-${i}-cards" style="height: 208px">`
                 } else {
                     div_point.innerHTML = points[point];
                 }
@@ -453,7 +465,7 @@ function update_display(){
 
 function format_time_seconds(milliseconds) {
     let total_seconds = Math.floor(milliseconds / 1000);
-    return total_seconds.toString();
+    return total_seconds < 10 ? ("0" + total_seconds.toString()) : total_seconds.toString();
 }
 
 /**
