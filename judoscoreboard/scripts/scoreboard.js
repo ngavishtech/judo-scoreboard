@@ -341,16 +341,16 @@ function update_display(){
     }
 
     // osaekomi time
-    let div_osaekomi_time = document.getElementById('osaekomi_time');
-    div_osaekomi_time.innerHTML = format_time_seconds(fight_state.osaekomi_ms);
+    div = document.getElementById('osaekomi_time');
+    div.innerHTML = format_time_seconds(fight_state.osaekomi_ms);
     if (fight_state.osaekomi_ms === 0) {
-        div_osaekomi_time.style.color = '#596369'
+        div.style.color = '#596369'
     } else {
-        div_osaekomi_time.style.color = '#0bff18'
+        div.style.color = '#0bff18'
 
     }
-    // let div_osaekomi_time_tenths = document.getElementById('osaekomi_time_tenths');
-    // div_osaekomi_time_tenths.innerHTML = format_time_tenths(fight_state.osaekomi_ms);
+    // div = document.getElementById('osaekomi_time_tenths');
+    // div.innerHTML = format_time_tenths(fight_state.osaekomi_ms);
 
     // reset osaekomi assign
     // let div_0 = document.getElementById('osaekomi_assign_0');
