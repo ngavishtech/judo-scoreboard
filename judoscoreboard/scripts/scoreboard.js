@@ -324,8 +324,8 @@ function update_display(){
     // central clock
     div = document.getElementById('central_clock_time');
     div.innerHTML = format_time_minutes(fight_state.central_clock_ms);
-    div = document.getElementById('central_clock_time_tenths');
-    div.innerHTML = format_time_tenths(fight_state.central_clock_ms);
+    // div = document.getElementById('central_clock_time_tenths');
+    // div.innerHTML = format_time_tenths(fight_state.central_clock_ms);
 
     // central clock buttons
     let pause_continue = document.getElementById('central_clock_pause_continue');
