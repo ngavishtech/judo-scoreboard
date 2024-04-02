@@ -217,6 +217,10 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <img class="meitav_logo_zoom" id="meitav_logo" src="images/Meitav_Logo.png" alt="meitav_logo" style="position: relative; height: 60px; background-color: yellow; z-index: 999;">
+                                        <div>
+                                            <label style="font-size: 10px"> ©All rights reserved to Nir Gavish </label>
+                                        </div>
                                     </div>
                                 </td>
                                 <td style="width: 35%">
@@ -297,39 +301,27 @@
         </tbody>
     </table>
 
-    <a type="button" class="btn btn-secondary btn-floating optional" id="enable_view_only" href="#view" target="_blank" rel="noopener noreferrer">
+    <a type="button" class="btn btn-secondary btn-floating optional" id="enable_view_only_tab" href="#view" target="_blank" rel="noopener noreferrer" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Open View Mode (new tab)">
         <i class="fas fa-eye"></i>
     </a>
-
-	<a type="button" class="btn btn-secondary btn-floating optional" id="scroll_down" onclick="scroll_down()">
-		<i class="fas fa-arrow-down"></i>
+    <a type="button" onclick="window.open('#view','new window','width=+screen.width,height=+screen.height');return false;" class="btn btn-secondary btn-floating optional" id="enable_view_only_window" rel="noopener noreferrer" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Open View Mode (new window)">
+        <i class="fas fa-eye"></i>
     </a>
 
     <br>
 
     <div class="container">
-
-        <h2>Rules</h2>
-
-        You can adapt the judoscoreboard logic directly by modifying the below JSON configuration.
-        Times are in milliseconds. Osaekomi times ("osaekomi_wazari_time", "osaekomi_ippon_time", "osaekomi_warn_unassigned") can be set to null to disable them.
-
-        <div class="form-group">
-            <label for="fight_rules"></label><textarea class="form-control" id="fight_rules" name="fight_rules" rows="10" cols="50">Not loaded...</textarea>
-            <button class="btn btn-primary mt-2" onclick="set_fight_rules(); reset_all(); window.scrollTo({ top: 0, behavior: 'smooth' });">Update and Reset</button>
-        </div>
-
         <h2 id="usage">Usage</h2>
 
-        To use this scoreboard in a tournament, proceed as follows:
-
+        To use this scoreboard in a competition, proceed as follows:
         <ul>
             <li>Connect your laptop/computer to a second monitor (or projector).</li>
-            <li>Open a new view-only tab by clicking the eye icon.</li>
-            <li>Move the opened tab to the second monitor.</li>
-            <li>Click into the moved tab and press F11 (Windows OS) to make the page full screen.</li>
-            <li>Move the mouse back to the original tab and use the judoscoreboard from there.
-			Most buttons can also be triggered by keyboard shortcuts, which are noted as hover information on the respective buttons.</li>
+            <li>Set up your display settings to extended view (typically by using F8/F2).</li>
+            <li>Open a new view-mode tab/window by clicking one of the eye icons in the top left corner (left for tab, right for window).</li>
+            <li>Move the opened tab to the second monitor (can be done by dragging it or by clicking {START/WIN+SHIFT+ARROW} on the keyboard.</li>
+            <li>Click into the moved tab (view-mode) and press F11 (Windows OS) to switch to full screen view.</li>
+            <li>Move the mouse back to the original tab and use the judoscoreboard from there.</li>
+            <li>Most buttons can also be triggered by keyboard shortcuts, which are noted as hover information on the respective buttons.</li>
         </ul>
 
         Here is an overview of all keyboard shortcuts:
@@ -338,7 +330,7 @@
             <thead class="thead-light">
                 <tr>
                     <th>Action</th>
-                    <th>Keyboard shortcut</th>
+                    <th>Keyboard Shortcut</th>
                 </tr>
             </thead>
             <tbody>
@@ -364,30 +356,30 @@
                 </tr>
                 <tr>
                     <td>Ippon</td>
-                    <td>1 (white) or 4 (blue)</td>
+                    <td>1 (white) or 4 (blue),   Note: shift/ctrl to deduct</td>
                 </tr>
                 <tr>
                     <td>Wazari</td>
-                    <td>2 (white) or 5 (blue)</td>
+                    <td>2 (white) or 5 (blue),   Note: shift/ctrl to deduct</td>
                 </tr>
                 <tr>
                     <td>Shido</td>
-                    <td>3 (white) or 6 (blue)</td>
+                    <td>3 (white) or 6 (blue),   Note: shift/ctrl to deduct</td>
                 </tr>
                 <tr>
-                    <td>Next fight (reset scoreboard)</td>
+                    <td>Next Fight (Reset Scoreboard)</td>
                     <td>Enter</td>
                 </tr>
                 <tr>
-                    <td>Switch to golden score</td>
-                    <td>Use mouse</td>
+                    <td>Switch To Golden Score</td>
+                    <td>G</td>
                 </tr>
                 <tr>
-                    <td>Set fight time</td>
-                    <td>Use mouse</td>
+                    <td>Set Fight Time</td>
+                    <td>Use Mouse & Type Value</td>
                 </tr>
                 <tr>
-                    <td>Continue (both the fight and Osaekomi). Useful after accidentally stopping the time.</td>
+                    <td>Continue (Fight & Osaekomi). Useful if accidentally stopped the fight.</td>
                     <td>C</td>
                 </tr>
             </tbody>
@@ -395,18 +387,27 @@
 
         <h2>About</h2>
 
-        <p>This is a free and open-source project licensed under the <a
-        href="https://www.gnu.org/licenses/agpl-3.0.en.html">GNU Affero General Public License</a>. As an open-source project, this software
-        is available for anyone to use, modify, and distribute in accordance
-        with the terms of the license (simplified summary <a
-        href="https://www.tldrlegal.com/license/gnu-affero-general-public-license-v3-agpl-3-0">here</a>).</p>
+        <p>This is a free and open-source project licensed under the
+            <a href="https://www.gnu.org/licenses/agpl-3.0.en.html">GNU Affero General Public License</a>,
+            <a href="https://www.tldrlegal.com/license/gnu-affero-general-public-license-v3-agpl-3-0">Described Shortly Here</a>.
+        </p>
 
-        <p>This software was built using various resources, including but not limited to:</p>
-        <ul class="list-group">
-          <li class="list-group-item">Icons from <a href="https://fontawesome.com/">FontAwesome</a></li>
-          <li class="list-group-item">Audio from <a href="https://freesound.org">Freesound</a> (Public Domain)</li>
-          <li class="list-group-item">Styles from <a href="https://getbootstrap.com/">Bootstrap</a></li>
-        </ul>
+        <p>This software was built using various resources, including but not limited to:
+            <a href="https://fontawesome.com/">FontAwesome</a>,
+            <a href="https://freesound.org">Freesound</a>,
+            <a href="https://getbootstrap.com/">Bootstrap</a>.
+        </p>
+
+        <!--        <h2>Rules</h2>-->
+
+        <!--        You can adapt the judoscoreboard logic directly by modifying the below JSON configuration.-->
+        <!--        Times are in milliseconds. Osaekomi times ("osaekomi_wazari_time", "osaekomi_ippon_time", "osaekomi_warn_unassigned") can be set to null to disable them.-->
+
+        <div class="form-group" style="visibility: hidden;">
+            <label for="fight_rules"></label><textarea class="form-control" id="fight_rules" name="fight_rules" rows="1" cols="50">Not loaded...</textarea>
+            <!--            <button class="btn btn-primary mt-2" onclick="set_fight_rules(); reset_all(); window.scrollTo({ top: 0, behavior: 'smooth' });">Update and Reset</button>-->
+        </div>
+
       </div>
 
     <!-- RESOURCES -->

@@ -64,6 +64,7 @@ function get_initial_fight_state() {
         }
     };
     return {
+        fight_started: false,
         // clock
         central_clock_running: false,
         central_clock_ms: fight_rules.total_fight_time,
@@ -214,6 +215,7 @@ function remove_point(fighter, point_name) {
 
 function hajime() {
     fight_state.central_clock_running = true;
+    fight_state.fight_started = true;
 }
 function matte() {
     fight_state.central_clock_running = false;
@@ -335,9 +337,16 @@ function update_display(){
     if (fight_state.central_clock_running) {
         update_tooltip(pause_continue, 'Matte (Space)');
         pause_continue_img.classList.add('fa-pause');
+        div.style.color = '#0bff18'
     } else {
         update_tooltip(pause_continue, 'Hajime (Space)');
         pause_continue_img.classList.add('fa-play');
+        if (fight_state.fight_started) {
+            div.style.color = 'red'
+        } else {
+            div.style.color = 'white'
+        }
+
     }
 
     // osaekomi time
@@ -821,12 +830,6 @@ function display_view_only() {
     }
 
     window.scrollTo(0,0);
-}
-
-
-function scroll_down() {
-    const element = document.getElementById("usage");
-    element.scrollIntoView({ behavior: "smooth" });
 }
 
 // hide button once we are scrolling
