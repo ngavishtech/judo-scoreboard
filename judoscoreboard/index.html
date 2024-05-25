@@ -169,7 +169,7 @@
                                                     </div>
                                                     <input id="golden_score_time_set_seconds" type="number" min="0" step="1" value="0" class="form-control"
                                                         placeholder="Seconds" aria-label="Seconds" aria-describedby="Seconds" data-bs-toggle="tooltip"
-                                                        data-bs-placement="top" data-bs-title="Seconds" oninput="total_fight_time_reset_change()">
+                                                        data-bs-placement="top" data-bs-title="Seconds" oninput="golden_score_time_set_change()">
                                                     <a class="btn btn-success" onclick="reset_for_golden_score()" data-bs-toggle="tooltip" data-bs-placement="top"
                                                         data-bs-title="Reset for Golden Score (G)">
                                                         <i class="fa fa-fw" style="width: 2em;">GS</i>
@@ -301,10 +301,7 @@
         </tbody>
     </table>
 
-    <a type="button" class="btn btn-secondary btn-floating optional" id="enable_view_only_tab" href="#view" target="_blank" rel="noopener noreferrer" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Open View Mode (new tab)">
-        <i class="fas fa-eye"></i>
-    </a>
-    <a type="button" onclick="window.open('#view','new window','width=+screen.width,height=+screen.height');return false;" class="btn btn-secondary btn-floating optional" id="enable_view_only_window" rel="noopener noreferrer" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Open View Mode (new window)">
+    <a type="button" class="btn btn-secondary btn-floating optional" id="enable_view_only_tab" href="#view" target="_blank" rel="noopener noreferrer" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Open View Mode (hold Shift for new window)">
         <i class="fas fa-eye"></i>
     </a>
 

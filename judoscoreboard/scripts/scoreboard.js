@@ -89,11 +89,10 @@ let fight_state = get_initial_fight_state();
  */
 function master_timer_tick() {
     if (fight_state.central_clock_running) {
-        fight_state.central_clock_ms -= master_timer_ms;
-
         if (fight_state.is_golden_score) {
-
+            fight_state.central_clock_ms += master_timer_ms;
         } else {
+            fight_state.central_clock_ms -= master_timer_ms;
             if (fight_state.central_clock_ms <= 0 && !fight_state.osaekomi_running) {
                 fight_state.central_clock_running = false;
                 ring_bell();
@@ -568,13 +567,19 @@ golden_score_time_set_change(); // update the display once
 
 function reset_for_golden_score() {
     const minutes_input = document.getElementById("golden_score_time_set_minutes");
-    minutes_input.value = 0;
+    const minutes = get_number_from_input(minutes_input);
     const seconds_input = document.getElementById("golden_score_time_set_seconds");
-    seconds_input.value = 0;
+    const seconds = get_number_from_input(seconds_input);
+
+    const ms = minutes * 60 * 1000 + seconds * 1000;
 
     matte();
     fight_state.central_clock_ms = golden_score_time_set_change();
+    let element = document.getElementById("central_clock_set_time");
+    element.innerHTML = format_time_minutes(ms);
     fight_state.is_golden_score = true;
+
+    return ms;
 }
 
 function central_clock_set_change() {
