@@ -23,6 +23,7 @@ let fight_rules = {
     stop_osaekomi_on_ippon: 1,
     stop_osaekomi_on_wazari: 2,
     count_wazaris_towards_ippon: 2,
+    max_gs_time: 20 * 60 * 1000,
     // sound
     osaekomi_error_sound_frequency_ms: 1000,
     error_sound_volume: 0.5,
@@ -91,6 +92,14 @@ function master_timer_tick() {
     if (fight_state.central_clock_running) {
         if (fight_state.is_golden_score) {
             fight_state.central_clock_ms += master_timer_ms;
+            if (fight_state.central_clock_ms >= fight_rules.max_gs_time && !fight_state.osaekomi_running) {
+                fight_state.central_clock_running = false;
+                ring_bell();
+                matte();
+            }
+            if (fight_state.central_clock_ms > fight_rules.max_gs_time) {
+                fight_state.central_clock_ms = fight_rules.max_gs_time;
+            }
         } else {
             fight_state.central_clock_ms -= master_timer_ms;
             if (fight_state.central_clock_ms <= 0 && !fight_state.osaekomi_running) {
@@ -461,7 +470,12 @@ function update_display(){
                 }
             } else {
                 if (point === "shido") {
-                    let final_img = points[point] === 0 ? 'none' : points[point] === 1 ? 'yellow1' : points[point] === 2 ? 'yellow2' : points[point] === 3 ? 'red' : 'none';
+                    let final_img;
+                    if (points[point] === fight_rules.stop_clock_on_shido) {
+                        final_img = 'red';
+                    } else {
+                        final_img = points[point] === 0 ? 'none' : points[point] === 1 ? 'yellow1' : points[point] === 2 ? 'yellow2' : 'none';
+                    }
                     div_point.innerHTML = `<img class="lh-sm" id="shido_${i}_cards" src="images/shido-${final_img}.png" alt="shido-${i}-cards" style="height: 208px">`
                 } else {
                     div_point.innerHTML = points[point];
@@ -609,6 +623,24 @@ function get_number_from_input(input) {
     } else {
         return parseInt(input.value);
     }
+}
+
+/**
+ * Set GS Competition
+ */
+function apply_competition_mode() {
+    const competition_mode_input = document.getElementById("competition_mode_input");
+    if (competition_mode_input.value.toString() === "true") {
+        fight_rules.stop_clock_on_shido = 2;
+        fight_rules.stop_clock_on_wazari = 1;
+        fight_rules.stop_osaekomi_on_wazari = 1;
+    } else {
+        fight_rules.stop_clock_on_shido = 3;
+        fight_rules.stop_clock_on_wazari = 2;
+        fight_rules.stop_osaekomi_on_wazari = 2;
+    }
+    const max_gs_time_input = document.getElementById("max_gs_time_input");
+    fight_rules.max_gs_time = get_number_from_input(max_gs_time_input) * 60 * 1000;
 }
 
 /**

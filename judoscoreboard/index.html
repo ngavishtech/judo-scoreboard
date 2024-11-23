@@ -139,7 +139,7 @@
                                         <!-- Set fight time -->
                                         <div class="mb-2">
                                             <div class="d-flex justify-content-center mb-2">
-                                                <div class="input-group" style="width:23em;">
+                                                <div class="input-group" style="width:29em;">
                                                     <input id="total_fight_time_reset_minutes" type="number" min="0" step="1" value="4" class="form-control"
                                                         placeholder="Minutes" aria-label="Minutes" aria-describedby="Minutes" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" data-bs-title="Minutes" oninput="total_fight_time_reset_change()">
@@ -160,7 +160,7 @@
                                         <!-- Reset for golden score -->
                                         <div class="mb-2">
                                             <div class="d-flex justify-content-center mb-2">
-                                                <div class="input-group" style="width:23em;">
+                                                <div class="input-group" style="width:29em;">
                                                     <input id="golden_score_time_set_minutes" type="number" min="0" step="1" value="0" class="form-control"
                                                         placeholder="Minutes" aria-label="Minutes" aria-describedby="Minutes" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" data-bs-title="Minutes" oninput="golden_score_time_set_change()">
@@ -181,7 +181,7 @@
                                         <!-- Set clock -->
                                         <div class="mb-2">
                                             <div class="d-flex justify-content-center mb-2">
-                                                <div class="input-group" style="width:23em;">
+                                                <div class="input-group" style="width:29em;">
                                                     <input id="central_clock_set_minutes" type="number" min="0" step="1" value="4" class="form-control"
                                                         placeholder="Minutes" aria-label="Minutes" aria-describedby="Minutes" data-bs-toggle="tooltip"
                                                         data-bs-placement="top" data-bs-title="Minutes" oninput="central_clock_set_change()">
@@ -199,10 +199,29 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <!-- Set competition mode -->
+                                        <div class="mb-2">
+                                            <div class="d-flex justify-content-center">
+                                                <div class="input-group" style="width:29em">
+                                                    <select name="competition_mode" id="competition_mode_input" class="form-control" placeholder="Competition_mode" aria-label="Competition_mode" aria-describedby="Competition_mode">
+                                                        <option value="false">Regular Competition</option>
+                                                        <option value="true">GS Competition</option>
+                                                    </select>
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text colon">:</span>
+                                                    </div>
+                                                    <input id="max_gs_time_input" type="number" min="0" step="1" value="20" class="form-control"
+                                                           placeholder="GS max minutes" aria-label="GS max minutes" aria-describedby="GS max minutes" data-bs-toggle="tooltip"
+                                                           data-bs-placement="top" data-bs-title="GS max minutes">
+                                                    <button class="btn btn-success" type="button" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="* Regular Competition - 2 Wazari or 3 Shido. * GS Competition - 1 wazari or 2 Shido."
+                                                            onclick="apply_competition_mode()">Competition Mode & GS Max Time</button>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <!-- Set osaekomi clock  -->
                                         <div class="mb-2">
                                             <div class="d-flex justify-content-center">
-                                                <div class="input-group" style="width:23em">
+                                                <div class="input-group" style="width:29em">
                                                     <input id="osaekomi_seconds_input" type="number" min="0" max="20" step="1" value="10" class="form-control" placeholder="Osaekomi seconds" aria-label="Osaekomi seconds" aria-describedby="Osaekomi seconds">
                                                     <button class="btn btn-success" type="button" onclick="apply_osaekomi_seconds()">Set Osaekomi Clock</button>
                                                 </div>
@@ -211,7 +230,7 @@
 										<!-- Set clock font size  -->
                                         <div class="mb-2">
                                             <div class="d-flex justify-content-center">
-                                                <div class="input-group" style="width:23em">
+                                                <div class="input-group" style="width:29em">
                                                     <input id="clock_font_size" type="number" min="1" max="22" step="1" value="13" class="form-control" placeholder="Clock font size" aria-label="Clock font size" aria-describedby="Clock font size">
                                                     <button class="btn btn-success" type="button" onclick="apply_clock_font_size()">Set Clock Font Size</button>
                                                 </div>
@@ -395,14 +414,14 @@
             <a href="https://getbootstrap.com/">Bootstrap</a>.
         </p>
 
-        <!--        <h2>Rules</h2>-->
+        <h2>Customize Rules</h2>
 
-        <!--        You can adapt the judoscoreboard logic directly by modifying the below JSON configuration.-->
-        <!--        Times are in milliseconds. Osaekomi times ("osaekomi_wazari_time", "osaekomi_ippon_time", "osaekomi_warn_unassigned") can be set to null to disable them.-->
+        You can adapt the judoscoreboard logic directly by modifying the below JSON configuration.
+        Times are in milliseconds. Osaekomi times ("osaekomi_wazari_time", "osaekomi_ippon_time", "osaekomi_warn_unassigned") can be set to null to disable them.
 
-        <div class="form-group" style="visibility: hidden;">
-            <label for="fight_rules"></label><textarea class="form-control" id="fight_rules" name="fight_rules" rows="1" cols="50">Not loaded...</textarea>
-            <!--            <button class="btn btn-primary mt-2" onclick="set_fight_rules(); reset_all(); window.scrollTo({ top: 0, behavior: 'smooth' });">Update and Reset</button>-->
+        <div class="form-group">
+            <label for="fight_rules"></label><textarea class="form-control" id="fight_rules" name="fight_rules" rows="17" cols="50">Not loaded...</textarea>
+            <button class="btn btn-primary mt-2" onclick="set_fight_rules(); reset_all(); window.scrollTo({ top: 0, behavior: 'smooth' });">Update and Reset</button>
         </div>
 
       </div>
