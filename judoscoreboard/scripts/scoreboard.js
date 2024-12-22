@@ -13,6 +13,7 @@ let fight_rules = {
     total_fight_time: 4 * 60 * 1000,
     // osaekomi times
     osaekomi_warn_unassigned: 2 * 1000,
+    osaekomi_yuko_time: 5 * 1000,
     osaekomi_wazari_time: 10 * 1000,
     osaekomi_ippon_time: 20 * 1000,
     osaekomi_max_time: 20 * 1000,
@@ -56,11 +57,13 @@ function get_initial_fight_state() {
         0: {
             'ippon': 0,
             'wazari': 0,
+            'yuko': 0,
             'shido': 0
         },
         1: {
             'ippon': 0,
             'wazari': 0,
+            'yuko': 0,
             'shido': 0
         }
     };
@@ -116,9 +119,17 @@ function master_timer_tick() {
 
         if (fight_state.osaekomi_holder !== -1) {
             if (
+                fight_rules.osaekomi_yuko_time != null &&
+                fight_state.osaekomi_ms === fight_rules.osaekomi_yuko_time
+            ) {
+                add_point(fight_state.osaekomi_holder, 'yuko');
+            }
+
+            if (
                 fight_rules.osaekomi_wazari_time != null &&
                 fight_state.osaekomi_ms === fight_rules.osaekomi_wazari_time
             ) {
+                remove_point(fight_state.osaekomi_holder, 'yuko');
                 add_point(fight_state.osaekomi_holder, 'wazari');
             }
 
@@ -153,6 +164,7 @@ function master_timer_tick() {
 function add_point(fighter, point_name) {
     const n_ippons_before = get_n_ippons(fighter);
     const n_wazaris_before = fight_state.points[fighter]['wazari'];
+    const n_yukos_before = fight_state.points[fighter]['yuko'];
     const n_shidos_before = fight_state.points[fighter]['shido'];
 
     fight_state.points[fighter][point_name] += 1;
@@ -172,6 +184,10 @@ function add_point(fighter, point_name) {
         n_wazaris % fight_rules.stop_clock_on_wazari === 0) ||
         (fight_state.is_golden_score && n_wazaris_before !== n_wazaris);
 
+    // yuko stop?
+    const n_yukos = fight_state.points[fighter]['yuko'];
+    const yuko_stop = n_yukos_before !== n_yukos && fight_state.is_golden_score
+
     // shido stop?
     const n_shidos = fight_state.points[fighter]['shido'];
     const shido_stop =
@@ -186,6 +202,9 @@ function add_point(fighter, point_name) {
         matte();
     } else if (shido_stop) {
         fight_state.points[1 - fighter]['ippon'] = 1;
+        ring_bell();
+        matte();
+    } else if (yuko_stop) {
         ring_bell();
         matte();
     }
@@ -261,6 +280,11 @@ function osaekomi_assign(fighter, start_on_zero=true) {
             fight_state.osaekomi_ms >= fight_rules.osaekomi_wazari_time
         ) {
             remove_point(fight_state.osaekomi_holder, 'wazari');
+        } else if (
+            fight_rules.osaekomi_yuko_time != null &&
+            fight_state.osaekomi_ms >= fight_rules.osaekomi_yuko_time
+        ) {
+            remove_point(fight_state.osaekomi_holder, 'yuko');
         }
     }
 
@@ -276,7 +300,13 @@ function osaekomi_assign(fighter, start_on_zero=true) {
             fight_rules.osaekomi_wazari_time != null &&
             fight_state.osaekomi_ms >= fight_rules.osaekomi_wazari_time
         ) {
+            remove_point(fight_state.osaekomi_holder, 'yuko');
             add_point(fight_state.osaekomi_holder, 'wazari');
+        } else if (
+            fight_rules.osaekomi_yuko_time != null &&
+            fight_state.osaekomi_ms >= fight_rules.osaekomi_yuko_time
+        ) {
+            add_point(fight_state.osaekomi_holder, 'yuko');
         }
     }
 }
@@ -298,7 +328,6 @@ function osaekomi_reset() {
 /////////////
 
 let div_point_ids_warned_about = new Set();
-let osaekomi_assign_original_width = document.getElementById('osaekomi_assign_0').style.width;
 
 /**
  *
@@ -366,29 +395,17 @@ function update_display(){
         div.style.color = '#0bff18'
 
     }
-    // div = document.getElementById('osaekomi_time_tenths');
-    // div.innerHTML = format_time_tenths(fight_state.osaekomi_ms);
 
     // reset osaekomi assign
-    // let div_0 = document.getElementById('osaekomi_assign_0');
-    // let div_1 = document.getElementById('osaekomi_assign_1');
     let div_text = document.getElementById('osaekomi_assign_text');
     let div_assign_view = document.getElementById('osaekomi_assign_view');
 
     // set osaekomi assign correctly
-    // div_0.style.width = osaekomi_assign_original_width;
-    // div_1.style.width = osaekomi_assign_original_width;
     div_text.style.display = null;
     if (fight_state.osaekomi_holder === 0) {
-        // div_0.style.width = '45%';
-        // div_1.style.width = '15%';
-        // div_text.style.display = 'none';
         div_assign_view.style.backgroundColor = '#eeeeee';
         div_assign_view.style.visibility = 'visible';
     } else if (fight_state.osaekomi_holder === 1) {
-        // div_0.style.width = '15%';
-        // div_1.style.width = '45%';
-        // div_text.style.display = 'none';
         div_assign_view.style.backgroundColor = '#1515ec';
         div_assign_view.style.visibility = 'visible';
     } else {
@@ -504,20 +521,6 @@ function format_time_minutes(milliseconds) {
     seconds = seconds % 60;
 
     return minutes.toString() + ':' + (seconds < 10 ? '0' : '') + seconds;
-}
-
-/**
- *
- * @returns tenths of seconds
- * - On negative inputs, remove the sign from the output
- */
-function format_time_tenths(milliseconds) {
-    let tenths = Math.floor((milliseconds % 1000) / 100);
-    if (tenths < 0) {
-        tenths = -tenths;
-        tenths %= 10;
-    }
-    return tenths.toString();
 }
 
 function central_clock_time_click() {
@@ -746,17 +749,25 @@ function register_keys() {
         }
         if (event.code === "Digit3" || event.code === "Numpad3") { // 3
             fighter = 0;
-            point = 'shido'
+            point = 'yuko'
         }
         if (event.code === "Digit4" || event.code === "Numpad4") { // 4
-            fighter = 1;
-            point = 'ippon';
+            fighter = 0;
+            point = 'shido'
         }
         if (event.code === "Digit5" || event.code === "Numpad5") { // 5
             fighter = 1;
-            point = 'wazari';
+            point = 'ippon';
         }
         if (event.code === "Digit6" || event.code === "Numpad6") { // 6
+            fighter = 1;
+            point = 'wazari';
+        }
+        if (event.code === "Digit7" || event.code === "Numpad7") { // 7
+            fighter = 1;
+            point = 'yuko';
+        }
+        if (event.code === "Digit8" || event.code === "Numpad8") { // 8
             fighter = 1;
             point = 'shido';
         }
@@ -789,6 +800,20 @@ function ring_bell() {
         let audio = document.getElementById('audio_bell');
         audio.volume = fight_rules.win_sound_volume;
         audio.play();
+    }
+}
+
+////////////////////////
+// VISIBILITY CONTROL //
+////////////////////////
+function show_hide_controllers() {
+    const controllers = document.getElementsByClassName("control-visibility");
+    for (const controller of controllers) {
+        if (controller.style.visibility !== 'hidden') {
+            controller.style.visibility = 'hidden';
+        } else {
+            controller.style.visibility = 'visible';
+        }
     }
 }
 
@@ -849,8 +874,6 @@ const broadcast = new BroadcastChannel("fight_state");
 
 function broadcast_fight_state() {
     broadcast.postMessage(fight_state);
-    // let fight_state_string = JSON.stringify(fight_state);
-    // localStorage.setItem('fight_state', fight_state_string);
 }
 
 /**
@@ -868,12 +891,6 @@ function display_view_only() {
 
     window.scrollTo(0,0);
 }
-
-// hide button once we are scrolling
-const scroll_down_button = document.getElementById('scroll_down');
-window.addEventListener('scroll', () => {
-    scroll_down_button.style.display = 'none';
-});
 
 ///////////
 // START //
