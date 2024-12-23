@@ -20,7 +20,7 @@
                                             class="btn btn-secondary optional control-visibility"
                                             data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Remove Ippon (Shift/Ctrl+1)"
                                         >-</button>
-                                        <span class="lh-sm" onclick="add_point(0,'ippon')" id="point_0_ippon">NaN</span>
+                                        <span class="lh-sm" onclick="add_point(0,'ippon')" oncontextmenu="event.preventDefault(); remove_point(0, 'ippon')" id="point_0_ippon">NaN</span>
                                         <button
                                             onclick="add_point(0,'ippon')"
                                             type="button"
@@ -37,7 +37,7 @@
                                             class="btn btn-secondary optional control-visibility"
                                             data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Remove Wazari (Shift/Ctrl+2)"
                                         >-</button>
-                                        <span class="lh-sm" onclick="add_point(0,'wazari')" id="point_0_wazari">NaN</span>
+                                        <span class="lh-sm" onclick="add_point(0,'wazari')" oncontextmenu="event.preventDefault(); remove_point(0, 'wazari')" id="point_0_wazari">NaN</span>
                                         <button
                                             onclick="add_point(0,'wazari')"
                                             type="button"
@@ -54,7 +54,7 @@
                                             class="btn btn-secondary optional control-visibility"
                                             data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Remove Yuko (Shift/Ctrl+7)"
                                         >-</button>
-                                        <span class="lh-sm" onclick="add_point(0,'yuko')" id="point_0_yuko">NaN</span>
+                                        <span class="lh-sm" onclick="add_point(0,'yuko')" oncontextmenu="event.preventDefault(); remove_point(0, 'yuko')" id="point_0_yuko">NaN</span>
                                         <button
                                             onclick="add_point(0,'yuko')"
                                             type="button"
@@ -71,7 +71,7 @@
                                             class="btn btn-secondary optional control-visibility"
                                             data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Remove Shido (Shift/Ctrl+3)"
                                         >-</button>
-                                        <span class="lh-sm" onclick="add_point(0,'shido')" id="point_0_shido">NaN</span>
+                                        <span class="lh-sm" onclick="add_point(0,'shido')" oncontextmenu="event.preventDefault(); remove_point(0, 'shido')" id="point_0_shido">NaN</span>
                                         <button
                                             onclick="add_point(0,'shido')"
                                             type="button"
@@ -98,7 +98,7 @@
                                             class="btn btn-light optional control-visibility"
                                             data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Remove Ippon (Shift/Ctrl+4)"
                                         >-</button>
-                                        <span class="lh-sm" onclick="add_point(1,'ippon')" id="point_1_ippon">NaN</span>
+                                        <span class="lh-sm" onclick="add_point(1,'ippon')" oncontextmenu="event.preventDefault(); remove_point(1, 'ippon')" id="point_1_ippon">NaN</span>
                                         <button
                                             onclick="add_point(1,'ippon')"
                                             type="button"
@@ -115,7 +115,7 @@
                                             class="btn btn-light optional control-visibility"
                                             data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Remove Wazari (Shift/Ctrl+5)"
                                         >-</button>
-                                        <span class="lh-sm" onclick="add_point(1,'wazari')" id="point_1_wazari">NaN</span>
+                                        <span class="lh-sm" onclick="add_point(1,'wazari')" oncontextmenu="event.preventDefault(); remove_point(1, 'wazari')" id="point_1_wazari">NaN</span>
                                         <button
                                             onclick="add_point(1,'wazari')"
                                             type="button"
@@ -132,7 +132,7 @@
                                             class="btn btn-light optional control-visibility"
                                             data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Remove Yuko (Shift/Ctrl+9)"
                                         >-</button>
-                                        <span class="lh-sm" onclick="add_point(1,'yuko')" id="point_1_yuko">NaN</span>
+                                        <span class="lh-sm" onclick="add_point(1,'yuko')" oncontextmenu="event.preventDefault(); remove_point(1, 'yuko')" id="point_1_yuko">NaN</span>
                                         <button
                                             onclick="add_point(1,'yuko')"
                                             type="button"
@@ -149,7 +149,7 @@
                                             class="btn btn-light optional control-visibility"
                                             data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Remove Shido (Shift/Ctrl+6)"
                                         >-</button>
-                                        <span class="lh-sm" onclick="add_point(1,'shido')" id="point_1_shido">NaN</span>
+                                        <span class="lh-sm" onclick="add_point(1,'shido')" oncontextmenu="event.preventDefault(); remove_point(1, 'shido')" id="point_1_shido">NaN</span>
                                         <button
                                             onclick="add_point(1,'shido')"
                                             type="button"
@@ -314,7 +314,7 @@
                                             <i id="osaekomi_pause_continue_img" class="fa fa-fw fa-play"></i>
                                         </a>
                                     </div>
-                                    <div class="optional control-visibility" id="osaekomi_assign_controllers">
+                                    <div class="optional" id="osaekomi_assign_controllers">
                                         <div class="mb-2">
                                             <div class="input-group d-flex justify-content-center">
                                                 <button
@@ -363,11 +363,12 @@
         <ul>
             <li>Connect your laptop/computer to a second monitor (or projector).</li>
             <li>Set up your display settings to extended view (typically by using F8/F2).</li>
-            <li>Open a new view-mode tab/window by clicking one of the eye icons in the top left corner (left for tab, right for window).</li>
+            <li>Open a new view-mode tab/window by clicking the eye icon in the top left corner.</li>
             <li>Move the opened tab to the second monitor (can be done by dragging it or by clicking {START/WIN+SHIFT+ARROW} on the keyboard.</li>
             <li>Click into the moved tab (view-mode) and press F11 (Windows OS) to switch to full screen view.</li>
             <li>Move the mouse back to the original tab and use the judoscoreboard from there.</li>
             <li>Most buttons can also be triggered by keyboard shortcuts, which are noted as hover information on the respective buttons.</li>
+            <li>*** Alternatively, you can click 'V' or Meitav logo to change all controllers visibility (hidden) and use 1 monitor.</li>
         </ul>
 
         Here is an overview of all keyboard shortcuts:
@@ -402,23 +403,27 @@
                 </tr>
                 <tr>
                     <td>Ippon</td>
-                    <td>1 (white) or 4 (blue),   Note: shift/ctrl to deduct</td>
+                    <td>1 (white) or 5 (blue),   Note: shift/ctrl to deduct</td>
                 </tr>
                 <tr>
                     <td>Wazari</td>
-                    <td>2 (white) or 5 (blue),   Note: shift/ctrl to deduct</td>
+                    <td>2 (white) or 6 (blue),   Note: shift/ctrl to deduct</td>
+                </tr>
+                <tr>
+                    <td>Yuko</td>
+                    <td>3 (white) or 7 (blue),   Note: shift/ctrl to deduct</td>
                 </tr>
                 <tr>
                     <td>Shido</td>
-                    <td>3 (white) or 6 (blue),   Note: shift/ctrl to deduct</td>
+                    <td>4 (white) or 8 (blue),   Note: shift/ctrl to deduct</td>
                 </tr>
                 <tr>
                     <td>Next Fight (Reset Scoreboard)</td>
                     <td>Enter</td>
                 </tr>
                 <tr>
-                    <td>Switch To Golden Score</td>
-                    <td>G</td>
+                    <td>Change Controllers Visibility Mode</td>
+                    <td>V or Mouse click over Meitav yellow logo</td>
                 </tr>
                 <tr>
                     <td>Set Fight Time</td>

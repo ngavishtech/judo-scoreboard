@@ -1,8 +1,7 @@
 //////////////
 // PREFETCH //
 //////////////
-// needs to be early, otherwise it is undefined in critical places
-let master_timer_ms = 10;
+let master_timer_ms = 200;
 
 /////////////////
 // FIGHT RULES //
@@ -414,11 +413,16 @@ function update_display(){
 
     // highlight if forgotten
     div_text.classList.remove('osaekomi_assign_stress');
+    const osaekomi_assign_controllers = document.getElementById("osaekomi_assign_controllers");
+    const controllers_original_visibility = document.getElementById("central_clock_pause_continue").style.visibility;
     if (
         fight_rules.osaekomi_warn_unassigned != null &&
         fight_state.osaekomi_holder === -1 &&
         fight_state.osaekomi_ms > fight_rules.osaekomi_warn_unassigned
     ) {
+        if (osaekomi_assign_controllers.style.visibility !== 'visible') {
+            osaekomi_assign_controllers.style.visibility = 'visible';
+        }
         div_text.classList.add('osaekomi_assign_stress');
         if (fight_state.osaekomi_running && fight_state.osaekomi_ms % fight_rules.osaekomi_error_sound_frequency_ms === 0) {
             if (!is_view) {
@@ -426,6 +430,10 @@ function update_display(){
                 audio.volume = fight_rules.error_sound_volume;
                 audio.play();
             }
+        }
+    } else {
+        if (osaekomi_assign_controllers.style.visibility !== controllers_original_visibility) {
+            osaekomi_assign_controllers.style.visibility = controllers_original_visibility;
         }
     }
 
@@ -736,6 +744,10 @@ function register_keys() {
             reset_for_golden_score();
             ignore = true;
         }
+        if (event.code === "KeyV") { // V
+            show_hide_controllers();
+            ignore = true;
+        }
 
         let fighter = null;
         let point = null;
@@ -814,6 +826,13 @@ function show_hide_controllers() {
         } else {
             controller.style.visibility = 'visible';
         }
+    }
+
+    const osaekomi_assign_controllers = document.getElementById("osaekomi_assign_controllers");
+    if (osaekomi_assign_controllers.style.visibility !== 'hidden') {
+        osaekomi_assign_controllers.style.visibility = 'hidden';
+    } else {
+        osaekomi_assign_controllers.style.visibility = 'visible';
     }
 }
 
