@@ -308,6 +308,11 @@ function osaekomi_assign(fighter, start_on_zero=true) {
             add_point(fight_state.osaekomi_holder, 'yuko');
         }
     }
+
+    const controllers_visibility = document.getElementById("central_clock_pause_continue");
+    if (controllers_visibility.style.visibility === 'hidden') {
+        hide_osaekomi_assign_controllers();
+    }
 }
 function osaekomi_pause() {
     fight_state.osaekomi_running = false;
@@ -413,16 +418,12 @@ function update_display(){
 
     // highlight if forgotten
     div_text.classList.remove('osaekomi_assign_stress');
-    const osaekomi_assign_controllers = document.getElementById("osaekomi_assign_controllers");
-    const controllers_original_visibility = document.getElementById("central_clock_pause_continue").style.visibility;
     if (
         fight_rules.osaekomi_warn_unassigned != null &&
         fight_state.osaekomi_holder === -1 &&
         fight_state.osaekomi_ms > fight_rules.osaekomi_warn_unassigned
     ) {
-        if (osaekomi_assign_controllers.style.visibility !== 'visible') {
-            osaekomi_assign_controllers.style.visibility = 'visible';
-        }
+        show_osaekomi_assign_controllers();
         div_text.classList.add('osaekomi_assign_stress');
         if (fight_state.osaekomi_running && fight_state.osaekomi_ms % fight_rules.osaekomi_error_sound_frequency_ms === 0) {
             if (!is_view) {
@@ -430,10 +431,6 @@ function update_display(){
                 audio.volume = fight_rules.error_sound_volume;
                 audio.play();
             }
-        }
-    } else {
-        if (osaekomi_assign_controllers.style.visibility !== controllers_original_visibility) {
-            osaekomi_assign_controllers.style.visibility = controllers_original_visibility;
         }
     }
 
@@ -833,6 +830,20 @@ function show_hide_controllers() {
         osaekomi_assign_controllers.style.visibility = 'hidden';
     } else {
         osaekomi_assign_controllers.style.visibility = 'visible';
+    }
+}
+
+function show_osaekomi_assign_controllers() {
+    const osaekomi_assign_controllers = document.getElementById("osaekomi_assign_controllers");
+    if (osaekomi_assign_controllers.style.visibility !== 'visible') {
+        osaekomi_assign_controllers.style.visibility = 'visible';
+    }
+}
+
+function hide_osaekomi_assign_controllers() {
+    const osaekomi_assign_controllers = document.getElementById("osaekomi_assign_controllers");
+    if (osaekomi_assign_controllers.style.visibility !== 'hidden') {
+        osaekomi_assign_controllers.style.visibility = 'hidden';
     }
 }
 
