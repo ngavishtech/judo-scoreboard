@@ -19,9 +19,11 @@ let fight_rules = {
     // stopping clock
     stop_clock_on_ippon: 1,
     stop_clock_on_wazari: 2,
+    stop_clock_on_yuko: 99,
     stop_clock_on_shido: 3,
     stop_osaekomi_on_ippon: 1,
     stop_osaekomi_on_wazari: 2,
+    stop_osaekomi_on_yuko: 99,
     count_wazaris_towards_ippon: 2,
     max_gs_time: 20 * 60 * 1000,
     // sound
@@ -185,7 +187,11 @@ function add_point(fighter, point_name) {
 
     // yuko stop?
     const n_yukos = fight_state.points[fighter]['yuko'];
-    const yuko_stop = n_yukos_before !== n_yukos && fight_state.is_golden_score
+    const yuko_stop =
+        (n_yukos_before !== n_yukos &&
+            fight_rules.stop_clock_on_yuko != null &&
+            n_yukos % fight_rules.stop_clock_on_yuko === 0) ||
+        (fight_state.is_golden_score && n_yukos_before !== n_yukos);
 
     // shido stop?
     const n_shidos = fight_state.points[fighter]['shido'];
@@ -220,7 +226,13 @@ function add_point(fighter, point_name) {
         fight_rules.stop_osaekomi_on_wazari != null &&
         n_wazaris % fight_rules.stop_osaekomi_on_wazari === 0;
 
-    if (ippon_osaekomi_stop || wazari_osaekomi_stop) {
+    // yuko osaekomi stop?
+    const yuko_osaekomi_stop =
+        n_yukos_before !== n_yukos &&
+        fight_rules.stop_osaekomi_on_yuko != null &&
+        n_yukos % fight_rules.stop_osaekomi_on_yuko === 0;
+
+    if (ippon_osaekomi_stop || wazari_osaekomi_stop || yuko_osaekomi_stop) {
         fight_state.osaekomi_running = false;
     }
 
@@ -641,11 +653,15 @@ function apply_competition_mode() {
     if (competition_mode_input.value.toString() === "true") {
         fight_rules.stop_clock_on_shido = 2;
         fight_rules.stop_clock_on_wazari = 1;
+        fight_rules.stop_clock_on_yuko = 1;
         fight_rules.stop_osaekomi_on_wazari = 1;
+        fight_rules.stop_osaekomi_on_yuko = 1;
     } else {
         fight_rules.stop_clock_on_shido = 3;
         fight_rules.stop_clock_on_wazari = 2;
+        fight_rules.stop_clock_on_yuko = 99;
         fight_rules.stop_osaekomi_on_wazari = 2;
+        fight_rules.stop_osaekomi_on_yuko = 99;
     }
     const max_gs_time_input = document.getElementById("max_gs_time_input");
     fight_rules.max_gs_time = get_number_from_input(max_gs_time_input) * 60 * 1000;
